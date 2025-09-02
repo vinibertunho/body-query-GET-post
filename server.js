@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 
 import dados from "./src/data/data.js";
-import res from "express/lib/response.js";
+
 const { bruxos, casas, varinhas, animais, pocoes } = dados;
 const app = express();
 app.use(express.json());
@@ -10,7 +10,6 @@ app.use(express.json());
 dotenv.config();
 const serverPort = process.env.PORT || 3001;
 
-// Query Parameters no Node.js - API de Hogwarts
 app.get("/bruxos", (req, res) => {
   const { casa, ano, especialidade, nome, varinhas } = req.query;
   let resultado = bruxos;
@@ -35,8 +34,6 @@ app.get("/bruxos", (req, res) => {
     resultado = resultado.filter((b) =>
       b.nome.toLowerCase().includes(nome.toLowerCase())
     );
-  }
-  if (condition) {
   }
 
   res.status(200).json({
@@ -84,6 +81,7 @@ app.get("/pocoes", (req, res) => {
 
   res.json(resultado);
 });
+
 app.get("/animais", (req, res) => {
   const { tipo, nome } = req.query;
   let resultado = animais;
@@ -109,7 +107,7 @@ app.post("/bruxos", (req, res) => {
 
   if (!nome || !casa) {
     return res.status(400).json({
-      sucess: false,
+      success: false,
       message: "nome e casa são obrigatorios para um bruxo",
     });
   }
@@ -125,11 +123,12 @@ app.post("/bruxos", (req, res) => {
   bruxos.push(novoBruxo);
 
   res.status(201).json({
-    sucess: true,
+    success: true,
     message: "Novo bruxo adicionado a Hogwarts",
     data: novoBruxo,
   });
 });
+
 app.post("/varinhas", (req, res) => {
   const { material, nucleo, comprimento } = req.body;
   if (!material || !nucleo || !comprimento) {
@@ -147,12 +146,15 @@ app.post("/varinhas", (req, res) => {
     comprimento,
   };
 
+  varinhas.push(novaVarinha);
+
   res.status(201).json({
     success: true,
     message: "Nova varinha adicionada com sucesso!",
     data: novaVarinha,
   });
 });
+
 app.listen(serverPort, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${serverPort} 🚀`);
 });
