@@ -155,18 +155,27 @@ app.post("/varinhas", (req, res) => {
 });
 
 app.get("/stats", (req, res) => {
-  const bruxosPorCasa = bruxos.reduce((s, bruxo) => {
-    s[bruxo.casa] = (s[bruxo.casa] || 0) + 1;
-    return s;
-  }, {});
-
-  const materialCount = varinhas.reduce((s, v) => {
-    if (v.material) {
-      s[v.material] = (s[v.material] || 0) + 1;
+  // Contagem de bruxos por casa
+  const bruxosPorCasa = {};
+  for (const bruxo of bruxos) {
+    if (!bruxosPorCasa[bruxo.casa]) {
+      bruxosPorCasa[bruxo.casa] = 0;
     }
-    return s;
-  }, {});
+    bruxosPorCasa[bruxo.casa]++;
+  }
 
+  // Contagem de materiais de varinhas
+  const materialCount = {};
+  for (const v of varinhas) {
+    if (v.material) {
+      if (!materialCount[v.material]) {
+        materialCount[v.material] = 0;
+      }
+      materialCount[v.material]++;
+    }
+  }
+
+  // Descobrir o material mais comum
   let materialMaisComum = null;
   let qtdMaisComum = 0;
 
@@ -185,5 +194,7 @@ app.get("/stats", (req, res) => {
 });
 
 app.listen(serverPort, () => {
-  console.log(`O mundo de Harry esta rodando http://localhost:${serverPort} 🚀`);
+  console.log(
+    `O mundo de Harry esta rodando http://localhost:${serverPort} 🚀`
+  );
 });
