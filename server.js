@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 dotenv.config();
-const serverPort = process.env.PORT || 3001;
+const serverPort = process.env.PORT || 3000;
 
 app.get("/bruxos", (req, res) => {
   const { casa, ano, especialidade, nome, varinhas } = req.query;
