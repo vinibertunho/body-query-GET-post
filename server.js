@@ -155,7 +155,6 @@ app.post("/varinhas", (req, res) => {
 });
 
 app.get("/stats", (req, res) => {
-  // Contagem de bruxos por casa
   const bruxosPorCasa = {};
   for (const bruxo of bruxos) {
     if (!bruxosPorCasa[bruxo.casa]) {
@@ -164,7 +163,6 @@ app.get("/stats", (req, res) => {
     bruxosPorCasa[bruxo.casa]++;
   }
 
-  // Contagem de materiais de varinhas
   const materialCount = {};
   for (const v of varinhas) {
     if (v.material) {
@@ -175,7 +173,6 @@ app.get("/stats", (req, res) => {
     }
   }
 
-  // Descobrir o material mais comum
   let materialMaisComum = null;
   let qtdMaisComum = 0;
 
